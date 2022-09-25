@@ -37,6 +37,8 @@ class GP:
     # --- Compute and return the squared-exponential kernel restricted to just training data: incorporate noise variance here
     def training_kernel(self, all_hyperparams: dict) -> np.ndarray:
         
+        # K is outputting negative determinant which causes log to be nan and log_marginal_likelihood to be nan. 
+        # This has something to do with the eigenvalue decomposition and the cholskey decomposition thing.
         sqd_noise_variance = all_hyperparams['noise_variance']**2
         kernel = SquaredExponentialKernel(all_hyperparams['attribute_length_scales'], all_hyperparams['signal_variance'])
         return np.array([[kernel(a, b) for a in self.X_train] for b in self.X_train]) + sqd_noise_variance * np.eye(self.n)
@@ -46,6 +48,8 @@ class GP:
     # --- Compute and return the log marginal likelihood. This method should be passed in to your jax.grad function call, in order to compute hyperparameter derivatives
     def log_marginal_likelihood(self, all_hyperparams: dict):
         training_K = self.training_kernel(all_hyperparams)
+        print(training_K)
+        print(np.linalg.det(training_K))
         return -0.5 * self.y.T @ np.linalg.inv(training_K) @ self.y - 0.5 * np.log(np.linalg.det(training_K))
     
 
@@ -61,14 +65,14 @@ class GP:
         
         hyperparams = self._initialize_hyperparams()
         change = {key: np.zeros_like(value) for key, value in hyperparams.items()}
-        
-        for i in range(n_iters):
+        print(self.log_marginal_likelihood(hyperparams))
+        # for i in range(n_iters):
             
-            print(f"Log Marginal Likelihood: {self.log_marginal_likelihood(hyperparams)}")
-            grad = jax.grad(self.log_marginal_likelihood)(hyperparams)
-            new_change = {key: gamma * value + lr * grad[key] for key, value in change.items()}
-            hyperparams = {key: value - new_change[key] for key, value in hyperparams.items()}
-            change = new_change
+        #     print(f"Log Marginal Likelihood: {self.log_marginal_likelihood(hyperparams)}")
+        #     grad = jax.grad(self.log_marginal_likelihood)(hyperparams)
+        #     new_change = {key: gamma * value + lr * grad[key] for key, value in change.items()}
+        #     hyperparams = {key: value - new_change[key] for key, value in hyperparams.items()}
+        #     change = new_change
             
     
 
