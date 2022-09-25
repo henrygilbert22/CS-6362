@@ -7,18 +7,16 @@ config.update("jax_enable_x64", True)
 
 import json
 import matplotlib.pyplot as plt
-
-class SquaredExponentialKernel:
-    def __init__(self, sigma_f: float = 1, length_sqd: float = 1):
-        self.sigma_f = sigma_f
-        self.length_sqd = length_sqd
-
-    def __call__(self, argument_1: np.array, argument_2: np.array) -> float:
-        return float(self.sigma_f *
-                    np.exp(-(np.linalg.norm(argument_1 - argument_2)**2) /
-                            (2 * self.length_sqd)))
         
-
+class SquaredExponentialKernel:
+    
+    def __init__(self, attribute_length_scales: np.ndarray, signal_variance: float):
+        self.inverse_L_sqd = np.linalg.inv(np.diag(attribute_length_scales**2))
+        self.sqd_signal_variance = signal_variance**2
+        
+    def __call__(self, x_1: np.ndarray, x_2: np.ndarray):
+        return self.sqd_signal_variance * np.exp((x_1 - x_2).T @ self.inverse_L_sqd @ (x_1 - x_2))
+        
 # Class for a Gaussian Process squared-exponential kernel, with support for model selection
 class GP:
     # --- Constructor: inputs (X), targets (y); Note that hyperparameters will change as optimization progresses, hence their absence in the constructor, and the dependence in remaining methods
@@ -36,24 +34,42 @@ class GP:
     def make_predictions(self, X_val: np.ndarray, all_hyperparams: dict):
         pass
     
-
     # --- Compute and return the squared-exponential kernel restricted to just training data: incorporate noise variance here
     def training_kernel(self, all_hyperparams: dict) -> np.ndarray:
         
-        L = np.diag(all_hyperparams['attributes_length_scale'])
-        noise_variance = all_hyperparams['noise_variance']
-        signal_variance = all_hyperparams['signal_variance']
-        return (signal_variance**2) * np.exp((self.X_train - self.X_train).T @ np.linalg.inv(L) @ (self.X_train - self.X_train)) + np.diag(noise_variance)**2
-    
+        sqd_noise_variance = all_hyperparams['noise_variance']**2
+        kernel = SquaredExponentialKernel(all_hyperparams['attribute_length_scales'], all_hyperparams['signal_variance'])
+        return np.array([[kernel(a, b) for a in self.X_train] for b in self.X_train]) + sqd_noise_variance * np.eye(self.n)
+        
+        
 
     # --- Compute and return the log marginal likelihood. This method should be passed in to your jax.grad function call, in order to compute hyperparameter derivatives
     def log_marginal_likelihood(self, all_hyperparams: dict):
-        pass
+        training_K = self.training_kernel(all_hyperparams)
+        return -0.5 * self.y.T @ np.linalg.inv(training_K) @ self.y - 0.5 * np.log(np.linalg.det(training_K))
     
 
+    def _initialize_hyperparams(self) -> dict:
+        
+        attribute_length_scales = np.array([np.std(self.X_train[:,i]) for i in range(self.X_train.shape[1])])
+        noise_variance = np.mean(self.y)
+        signal_variance = np.mean(self.y)
+        return {'attribute_length_scales': attribute_length_scales, 'noise_variance': noise_variance, 'signal_variance': signal_variance}
+        
     # --- Maximize the log marginal likelihood with respect to your hyperparameters using gradient ascent with momentum ; lr is learning rate, and gamma is the momentum term
-    def gradient_ascent_marginal_likelihood(self, all_hyperparams: dict, lr=1e-4, gamma=0.9, n_iters=500):
-        pass
+    def gradient_ascent_marginal_likelihood(self, lr=1e-4, gamma=0.9, n_iters=50):
+        
+        hyperparams = self._initialize_hyperparams()
+        change = {key: np.zeros_like(value) for key, value in hyperparams.items()}
+        
+        for i in range(n_iters):
+            
+            print(f"Log Marginal Likelihood: {self.log_marginal_likelihood(hyperparams)}")
+            grad = jax.grad(self.log_marginal_likelihood)(hyperparams)
+            new_change = {key: gamma * value + lr * grad[key] for key, value in change.items()}
+            hyperparams = {key: value - new_change[key] for key, value in hyperparams.items()}
+            change = new_change
+            
     
 
 
@@ -66,6 +82,10 @@ if __name__=='__main__':
     y_val = np.load(dataset_prefix+'_val_y.npy')
     attribute_names = json.load(open(dataset_prefix+'_attributes.json','r'))
 
+    X_train = X_train[:5]
+    y_train = y_train[:5]
+    gp = GP(X_train, y_train)
+    gp.gradient_ascent_marginal_likelihood()
     # plotting code for the data fit + model complexity terms logged during optimization: assumed data_fit and model_complexity are 1D arrays containing logged values
     '''
     from matplotlib import rc

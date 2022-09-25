@@ -16,6 +16,8 @@ class SquaredExponentialKernel:
         self.length_sqd = length_sqd
 
     def __call__(self, argument_1: np.array, argument_2: np.array) -> float:
+        
+        print(argument_1 - argument_2)
         return float(self.sigma_f *
                     np.exp(-(np.linalg.norm(argument_1 - argument_2)**2) /
                             (2 * self.length_sqd)))
@@ -302,10 +304,13 @@ def main():
     all_hyperparams.append({'signal_variance':10,'sqd_length_scale':16})
     all_hyperparams.append({'signal_variance':10,'sqd_length_scale':32})
     
-    for prefix in ['cola', 'sst2']:
-        X_train, y_train, sentences_train, X_val, y_val, sentences_val = load_data(prefix)
-        results = run_training_experiment(prefix, X_train, y_train, X_val, y_val, all_hyperparams)
-        run_rejection_analysis_experiment(prefix, results, X_val, y_val, sentences_val)
+    X_train, y_train, sentences_train, X_val, y_val, sentences_val = load_data('cola')
+    GPC = GPClassifier(X_train, y_train, {'signal_variance':10,'sqd_length_scale':.5})
+    
+    # for prefix in ['cola', 'sst2']:
+    #     X_train, y_train, sentences_train, X_val, y_val, sentences_val = load_data(prefix)
+    #     results = run_training_experiment(prefix, X_train, y_train, X_val, y_val, all_hyperparams)
+    #     run_rejection_analysis_experiment(prefix, results, X_val, y_val, sentences_val)
         
 
     
