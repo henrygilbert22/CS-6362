@@ -1,3 +1,4 @@
+from ast import arg
 import jax
 import jax.numpy as np
 from jax.scipy.linalg import cho_factor,cho_solve
@@ -16,7 +17,18 @@ class SquaredExponentialKernel:
         
     def __call__(self, x_1: np.ndarray, x_2: np.ndarray):
         return self.sqd_signal_variance * np.exp((x_1 - x_2).T @ self.inverse_L_sqd @ (x_1 - x_2))
+
+class TempKernel:
+    def __init__(self, sigma_f: float, attribute_length_scales: np.ndarray):
+        self.sigma_f = sigma_f
+        self.L = attribute_length_scales
+
+    def __call__(self, argument_1: np.array, argument_2: np.array) -> float:
         
+        argument_1 /= self.L
+        argument_2 /= self.L
+        return self.sigma_f * np.exp(-(np.linalg.norm(argument_1 - argument_2)**2))
+    
 # Class for a Gaussian Process squared-exponential kernel, with support for model selection
 class GP:
     # --- Constructor: inputs (X), targets (y); Note that hyperparameters will change as optimization progresses, hence their absence in the constructor, and the dependence in remaining methods
@@ -43,13 +55,16 @@ class GP:
         kernel = SquaredExponentialKernel(all_hyperparams['attribute_length_scales'], all_hyperparams['signal_variance'])
         return np.array([[kernel(a, b) for a in self.X_train] for b in self.X_train]) + sqd_noise_variance * np.eye(self.n)
         
+    def temp_kernel(self, all_hyperparams: dict) -> np.ndarray:
         
+        kernel = TempKernel(all_hyperparams['signal_variance'], all_hyperparams['attribute_length_scales'])
+        return np.array([[kernel(a, b) for a in self.X_train] for b in self.X_train])
 
     # --- Compute and return the log marginal likelihood. This method should be passed in to your jax.grad function call, in order to compute hyperparameter derivatives
     def log_marginal_likelihood(self, all_hyperparams: dict):
-        training_K = self.training_kernel(all_hyperparams)
-        print(training_K)
-        print(np.linalg.det(training_K))
+        
+        #training_K = self.training_kernel(all_hyperparams)
+        training_K = self.temp_kernel(all_hyperparams)
         return -0.5 * self.y.T @ np.linalg.inv(training_K) @ self.y - 0.5 * np.log(np.linalg.det(training_K))
     
 
@@ -65,14 +80,13 @@ class GP:
         
         hyperparams = self._initialize_hyperparams()
         change = {key: np.zeros_like(value) for key, value in hyperparams.items()}
-        print(self.log_marginal_likelihood(hyperparams))
-        # for i in range(n_iters):
+        for i in range(n_iters):
             
-        #     print(f"Log Marginal Likelihood: {self.log_marginal_likelihood(hyperparams)}")
-        #     grad = jax.grad(self.log_marginal_likelihood)(hyperparams)
-        #     new_change = {key: gamma * value + lr * grad[key] for key, value in change.items()}
-        #     hyperparams = {key: value - new_change[key] for key, value in hyperparams.items()}
-        #     change = new_change
+            print(f"Log Marginal Likelihood: {self.log_marginal_likelihood(hyperparams)}")
+            grad = jax.grad(self.log_marginal_likelihood)(hyperparams)
+            new_change = {key: gamma * value + lr * grad[key] for key, value in change.items()}
+            hyperparams = {key: value - new_change[key] for key, value in hyperparams.items()}
+            change = new_change
             
     
 

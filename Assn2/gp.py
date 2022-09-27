@@ -17,10 +17,8 @@ class SquaredExponentialKernel:
 
     def __call__(self, argument_1: np.array, argument_2: np.array) -> float:
         
-        print(argument_1 - argument_2)
         return float(self.sigma_f *
-                    np.exp(-(np.linalg.norm(argument_1 - argument_2)**2) /
-                            (2 * self.length_sqd)))
+                    np.exp(-(np.linalg.norm(argument_1 - argument_2)**2) / (2 * self.length_sqd)))
         
 # Class for a Gaussian Process Squared Exponential Kernel
 class GP:
