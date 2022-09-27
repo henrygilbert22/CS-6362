@@ -1,7 +1,9 @@
 from ast import arg
 import jax
 import jax.numpy as np
-from jax.scipy.linalg import cho_factor,cho_solve
+from jax.scipy.linalg import cho_factor, cho_solve
+import logging
+logging.basicConfig(level=logging.INFO)
 
 from jax.config import config
 config.update("jax_enable_x64", True)
@@ -18,17 +20,6 @@ class SquaredExponentialKernel:
     def __call__(self, x_1: np.ndarray, x_2: np.ndarray):
         return self.sqd_signal_variance * np.exp((x_1 - x_2).T @ self.inverse_L_sqd @ (x_1 - x_2))
 
-class TempKernel:
-    def __init__(self, sigma_f: float, attribute_length_scales: np.ndarray):
-        self.sigma_f = sigma_f
-        self.L = attribute_length_scales
-
-    def __call__(self, argument_1: np.array, argument_2: np.array) -> float:
-        
-        argument_1 /= self.L
-        argument_2 /= self.L
-        return self.sigma_f * np.exp(-(np.linalg.norm(argument_1 - argument_2)**2))
-    
 # Class for a Gaussian Process squared-exponential kernel, with support for model selection
 class GP:
     # --- Constructor: inputs (X), targets (y); Note that hyperparameters will change as optimization progresses, hence their absence in the constructor, and the dependence in remaining methods
@@ -49,23 +40,17 @@ class GP:
     # --- Compute and return the squared-exponential kernel restricted to just training data: incorporate noise variance here
     def training_kernel(self, all_hyperparams: dict) -> np.ndarray:
         
-        # K is outputting negative determinant which causes log to be nan and log_marginal_likelihood to be nan. 
-        # This has something to do with the eigenvalue decomposition and the cholskey decomposition thing.
         sqd_noise_variance = all_hyperparams['noise_variance']**2
         kernel = SquaredExponentialKernel(all_hyperparams['attribute_length_scales'], all_hyperparams['signal_variance'])
         return np.array([[kernel(a, b) for a in self.X_train] for b in self.X_train]) + sqd_noise_variance * np.eye(self.n)
         
-    def temp_kernel(self, all_hyperparams: dict) -> np.ndarray:
-        
-        kernel = TempKernel(all_hyperparams['signal_variance'], all_hyperparams['attribute_length_scales'])
-        return np.array([[kernel(a, b) for a in self.X_train] for b in self.X_train])
-
     # --- Compute and return the log marginal likelihood. This method should be passed in to your jax.grad function call, in order to compute hyperparameter derivatives
     def log_marginal_likelihood(self, all_hyperparams: dict):
         
-        #training_K = self.training_kernel(all_hyperparams)
-        training_K = self.temp_kernel(all_hyperparams)
-        return -0.5 * self.y.T @ np.linalg.inv(training_K) @ self.y - 0.5 * np.log(np.linalg.det(training_K))
+        training_K = self.training_kernel(all_hyperparams)
+        chol_K = np.linalg.inv(np.linalg.cholesky(training_K))
+        inverse_K = np.dot(chol_K.T, chol_K)
+        return -0.5 * self.y.T @ inverse_K @ self.y - 0.5 * np.log(np.linalg.det(training_K))
     
 
     def _initialize_hyperparams(self) -> dict:
