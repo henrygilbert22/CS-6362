@@ -304,6 +304,19 @@ def main():
     
     X_train, y_train, sentences_train, X_val, y_val, sentences_val = load_data('cola')
     GPC = GPClassifier(X_train, y_train, {'signal_variance':10,'sqd_length_scale':.5})
+    GPC.newton_MAP()
+    val_predictive_mean, val_predictive_variance = GPC.latent_predictive_distribution(X_val)
+    print(val_predictive_variance)
+    print(val_predictive_variance.shape)
+    print()
+    print(val_predictive_mean)
+    print(val_predictive_mean.shape)
+    print()
+    print(X_val)
+    print(X_val.shape)
+    print()
+    print(y_val)
+    print(y_val.shape)
     
     # for prefix in ['cola', 'sst2']:
     #     X_train, y_train, sentences_train, X_val, y_val, sentences_val = load_data(prefix)
