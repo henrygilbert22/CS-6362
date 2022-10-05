@@ -108,10 +108,10 @@ def load_data(dataset_prefix: str):
     y_val = np.load(dataset_prefix+'_val_y.npy')
     attribute_names = json.load(open(dataset_prefix+'_attributes.json','r'))
 
-    X_train = X_train[:5]
-    y_train = y_train[:5]
-    X_val = X_val[:5]
-    y_val = y_val[:5]
+    X_train = X_train
+    y_train = y_train
+    X_val = X_val
+    y_val = y_val
     
     return X_train, y_train, X_val, y_val, attribute_names
 
