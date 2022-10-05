@@ -4,7 +4,6 @@ from jax.scipy.linalg import cho_factor
 from jax.config import config
 config.update("jax_enable_x64", True)
 from matplotlib import rc
-import time
 
 import json
 import matplotlib.pyplot as plt
@@ -17,8 +16,7 @@ class SquaredExponentialKernel:
         
     def __call__(self, x_1: np.ndarray, x_2: np.ndarray):
         return self.sqd_signal_variance * np.exp(-((x_1 - x_2).T @ self.inverse_L_sqd @ (x_1 - x_2)))
-
-
+    
 # Class for a Gaussian Process squared-exponential kernel, with support for model selection
 class GP:
     # --- Constructor: inputs (X), targets (y); Note that hyperparameters will change as optimization progresses, hence their absence in the constructor, and the dependence in remaining methods
@@ -48,10 +46,8 @@ class GP:
 
 
     def _create_covariance_matrix(self, X_1: np.ndarray, X_2: np.ndarray, all_hyperparams: dict):
-        start = time.time()
         kernel = SquaredExponentialKernel(all_hyperparams['attribute_length_scales'], all_hyperparams['signal_variance'])
         covariance_matrix = np.array([[kernel(a, b) for a in self.relu(X_1)] for b in  self.relu(X_2)])
-        print(f"Time taken to create covariance matrix: {time.time() - start}")
         return covariance_matrix
     
     # --- Compute and return the squared-exponential kernel restricted to just training data: incorporate noise variance here
@@ -65,9 +61,7 @@ class GP:
     # --- Compute and return the log marginal likelihood. This method should be passed in to your jax.grad function call, in order to compute hyperparameter derivatives
     def log_marginal_likelihood(self, all_hyperparams: dict, data_fits: list=[], model_fits: list=[]) -> float:
         
-        training_K = self.training_kernel(all_hyperparams, self.X_train, self.X_train, True)
-        #training_K = self.training_kernel(all_hyperparams)  
-    
+        training_K = self.training_kernel(all_hyperparams)  
         c, low = cho_factor(training_K)
         K_det = 2 * np.sum(np.log(np.diag(c)))
         inverse_K = jax.scipy.linalg.cho_solve(jax.scipy.linalg.cho_factor(training_K, lower=True), np.diag(self.y))
@@ -78,25 +72,6 @@ class GP:
         data_fits.append(data_fit)
         model_fits.append(model_complexity)
         return - (data_fit + model_complexity)
-    
-    
-
-    def test_make_kernel(self, hyperparams: dict, X_1: np.ndarray, X_2: np.ndarray, add_noise: bool=False):
-        
-        attribute_length_scales = hyperparams["attribute_length_scales"]**2
-        sqd_signal_variance = hyperparams["signal_variance"]**2
-
-        scaled_X_1 = X_1 / attribute_length_scales
-        scaled_X_2 = X_2 / attribute_length_scales
-        diff = np.sum(scaled_X_1[:, None, :] - scaled_X_2[None, :, :], axis=2)
-        
-        noise = 0
-        if add_noise:
-            noise = hyperparams["noise_variance"]**2 * np.eye(self.n)
-            
-        return sqd_signal_variance * np.exp(-diff) + noise
-
-        
         
     def _initialize_hyperparams(self) -> dict:
         
@@ -117,7 +92,6 @@ class GP:
         for _ in range(n_iters):
             
             grad = jax.grad(self.log_marginal_likelihood)(hyperparams)
-            print(f"grad: {grad}")
             new_change = {key: gamma * value + lr * grad[key] for key, value in change.items()}
             hyperparams = {key: value + new_change[key] for key, value in hyperparams.items()}
             change = new_change
