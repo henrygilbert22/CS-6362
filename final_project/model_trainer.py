@@ -36,7 +36,7 @@ transform = transforms.Compose(
 
 def load_mnist_data(batch_size: int, transform: transforms.Compose) -> Tuple[data.DataLoader, data.DataLoader]:
     
-    dataset = MNIST('./data', transform=transform, download=True)
+    dataset = MNIST('./mnist_data', transform=transform, download=True)
     train_data, test_data = data.random_split(dataset, (50000,10000))
 
     train_dataset = DataLoader(train_data, batch_size=batch_size, shuffle=True)
