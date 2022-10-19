@@ -50,7 +50,9 @@ class CVAE(nn.Module):
         self.fc4 = nn.Linear(512, self.input_size)
     
     def encode(self, x, labels):
-        x = x.view(-1, 1*28*28)
+       # x = x.view(-1, 1*28*28)
+        # x = x.type(torch.DoubleTensor)
+        # labels = labels.type(torch.DoubleTensor)
         x = torch.cat((x, labels), 1)
         x = self.relu(self.fc1(x))
         return self.fc21(x), self.fc22(x)
@@ -65,7 +67,7 @@ class CVAE(nn.Module):
         eps = torch.randn_like(std)
         return eps.mul(std).add_(mu)
         
-    def forward(self,x, labels):
+    def forward(self, x, labels):
         mu, logvar = self.encode(x, labels)
         z = self.reparameterize(mu, logvar)
         x = self.decode(z, labels)
