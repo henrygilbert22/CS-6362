@@ -1,27 +1,20 @@
 from matplotlib import pyplot as plt
-from matplotlib.offsetbox import OffsetImage, AnnotationBbox, TextArea
-import matplotlib
 import numpy as np
-import pandas as pd
 import torch
-import torchvision
 from torch import nn
-from torch.autograd import Variable
 from torch.utils.data import DataLoader, Dataset
 from torch.utils import data
 import torch.nn.functional as F
 from torchvision import transforms
 from torchvision.datasets import MNIST
-from torchvision.utils import save_image
-from sklearn.model_selection import train_test_split
-from tqdm import tqdm, tqdm_notebook
-from sklearn.manifold import TSNE
-from sklearn.decomposition import PCA
-from typing import Tuple
+from tqdm import tqdm
+from typing import Dict, List, Tuple
+import pandas as pd
+import random
+
+from factor_data_loader import FactorDataLoader, Factor
+from market_data_loader import MarketDataLoader, GroupPeriod
 from model import CVAE
-from factor_data_loader import FactorDataLoader
-from market_data_loader import MarketDataLoader
-from alpaca_trade_api.rest import TimeFrame
 
 SEED = 42
 DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -59,35 +52,28 @@ def plot_loss(history):
 def one_hot(x, max_x):
     return torch.eye(max_x + 1)[x]
 
-def vae_loss_fn(x, recon_x, mu, logvar):
-    BCE = F.binary_cross_entropy(recon_x, x, reduction='sum')
-    KLD = -0.5 * torch.sum(1 + logvar - mu.pow(2) - logvar.exp())
-    return BCE + KLD
+def rmse_loss_fn(x, recon_x):
+   
+    criterion = nn.MSELoss()
+    return torch.sqrt(criterion(x, recon_x))
+   
 
-def evaluate(losses, cvae: CVAE, dataloader: data.DataLoader, device: torch.device, flatten=False):
+def evaluate(losses, cvae: CVAE, dataloader: data.DataLoader, device: torch.device):
     
-    model = lambda x, y: cvae(x, y)[0]    
     loss_sum = []
-    loss_fn = nn.MSELoss()
-    
     for (_, batch) in enumerate(dataloader):
         
-        inputs = batch['Data']
-        labels = batch['Class']
+        price_batch = batch['price_data']
+        factor_batch = batch['factor_data']
+        price_batch = price_batch.to(device)
         
-        inputs = inputs.to(device)
-        labels = one_hot(labels, 1).to(device)
-
-        if flatten:
-            inputs = inputs.view(inputs.size(0), 28*28)
-
-        outputs = model(inputs.float(), labels)
-        loss = loss_fn(inputs.float(), outputs)            
+        outputs = cvae(price_batch.float(), factor_batch.float())       
+        loss = rmse_loss_fn(price_batch.float(), outputs)            
         loss_sum.append(loss)
 
     losses.append((sum(loss_sum)/len(loss_sum)).item())
     
-def train_model(cvae: CVAE, dataloader: data.DataLoader, test_dataloader: data.DataLoader, flatten=False, epochs=20):
+def train_model(cvae: CVAE, dataloader: data.DataLoader, test_dataloader: data.DataLoader, epochs=30):
    
     validation_losses = []
     optim = torch.optim.Adam(cvae.parameters())
@@ -97,18 +83,14 @@ def train_model(cvae: CVAE, dataloader: data.DataLoader, test_dataloader: data.D
         for i in range(epochs):
             for (_, batch) in enumerate(dataloader):
                
-                data_batch = batch['Data']
-                class_batch = batch['Class']
-                
-                data_batch = data_batch.to(DEVICE)
-                labels = one_hot(class_batch, 1).to(DEVICE)
+                price_batch = batch['price_data']
+                factor_batch = batch['factor_data']
 
-                if flatten:
-                    data_batch = data_batch.view(data_batch.size(0), 28*28)
-
+                price_batch = price_batch.to(DEVICE)
                 optim.zero_grad()
-                x, mu, logvar = cvae(data_batch.float(), labels)
-                loss = vae_loss_fn(data_batch.float(), x[:, :5], mu, logvar)
+                
+                x = cvae(price_batch.float(), factor_batch.float())         
+                loss = rmse_loss_fn(price_batch.float(), x)
                 loss.backward()
                 optim.step()
             
@@ -120,59 +102,141 @@ def train_model(cvae: CVAE, dataloader: data.DataLoader, test_dataloader: data.D
     return validation_losses
 
 
-class MarketDataset(Dataset):
-    def __init__(self, data, labels):
-        self.labels = labels
-        self.data = data
+class ConditionedMarketDataset(Dataset):
+    def __init__(self, data: Tuple[float, np.array]):
+        # TODO: Add docstring
+        self.factor_data = [t[0] for t in data]
+        self.price_data = [t[1] for t in data]
     
     def __len__(self):
-        return len(self.labels)
+        return len(self.factor_data)
     
     def __getitem__(self, idx):
-        label = self.labels[idx]
-        d = self.data[idx]
-        sample = {"Data": d, "Class": label}
-        return sample
+        factor = self.factor_data[idx]
+        prices = self.price_data[idx]
+        return {"price_data": prices, "factor_data": factor}
     
-def load_market_data(batch_size: int = 1) -> Tuple[data.DataLoader, data.DataLoader]:
+def load_weekly_data_conditioned_on_factor() -> List[Tuple[np.array, np.array]]:
     
     mdl = MarketDataLoader()
-    mdl.load_data('SPY', '2015-01-01', '2020-01-01', TimeFrame.Day)
+    fdl = FactorDataLoader()
     
-    eod_data = mdl.get_eod_price()
-    normalized_eod_data = eod_data / np.linalg.norm(eod_data)
+    start_ts = pd.Timestamp('2016-01-01')
+    end_ts = pd.Timestamp('2021-02-01')
     
-    weekly_batches = np.array([
-        normalized_eod_data[i:i+5] 
-        for i in range(0, len(normalized_eod_data), 5)
-        if i+5 < len(normalized_eod_data)])
+    monthly_eod_prices = mdl.get_eod_price_data_grouped('SPY', start_ts, end_ts, GroupPeriod.MONTHLY)
+    monthly_factors = fdl.get_factor_data_by_month(Factor.INFLATION, start_ts, end_ts)
+    assert set(monthly_eod_prices.keys()) == set(monthly_factors.keys()), "Price and Factor dates are misaligned"
     
-    avg_batch = np.mean(weekly_batches)
-    labels = [1 if np.mean(batch) > avg_batch else 0 for batch in weekly_batches]
-    md = MarketDataset(weekly_batches, labels)
+    all_eod_prices = np.concatenate([prices for prices in list(monthly_eod_prices.values())])
+    eod_norm = np.linalg.norm(all_eod_prices)
+    normalized_eod_data = {k: v/eod_norm for k, v in monthly_eod_prices.items()}
     
-    train_size = int(len(weekly_batches) * 0.8)
-    train_data, test_data = data.random_split(md, (train_size, len(weekly_batches) - train_size))
+    weekly_batched_eod_data = {
+        k:  np.array([prices[i:i+5] for i in range(0, len(prices), 5)])
+        for k, prices in normalized_eod_data.items()}
+    
+    weekly_data = [
+        (np.array([monthly_factors[month]]), weekly_price) 
+        for month, weekly_prices in weekly_batched_eod_data.items()
+        for weekly_price in weekly_prices
+        if len(weekly_price) == 5]
+    
+    return weekly_data, eod_norm
+
+def load_weekly_data_conditoned_on_previous_week_and_factor() -> List[Tuple[np.array, np.array]]:
+    
+    mdl = MarketDataLoader()
+    fdl = FactorDataLoader()
+    
+    start_ts = pd.Timestamp('2016-01-01')
+    end_ts = pd.Timestamp('2021-02-01')
+    
+    monthly_eod_prices = mdl.get_eod_price_data_grouped('SPY', start_ts, end_ts, GroupPeriod.MONTHLY)
+    monthly_factors = fdl.get_factor_data_by_month(Factor.INFLATION, start_ts, end_ts)
+    assert set(monthly_eod_prices.keys()) == set(monthly_factors.keys()), "Price and Factor dates are misaligned"
+    
+    all_eod_prices = np.concatenate([prices for prices in list(monthly_eod_prices.values())])
+    min_price = np.min(all_eod_prices)
+    max_price = np.max(all_eod_prices)
+    diff = max_price - min_price
+    normalized_eod_data = {k: (v-min_price)/diff for k, v in monthly_eod_prices.items()}
+
+    
+    weekly_batched_eod_data = {
+        k:  np.array([prices[i:i+5] for i in range(0, len(prices), 5)])
+        for k, prices in normalized_eod_data.items()}
+    
+    weekly_data = [
+        (np.concatenate((np.array([monthly_factors[month]]), weekly_prices[i-1])), weekly_prices[i]) 
+        for month, weekly_prices in weekly_batched_eod_data.items()
+        for i in range(1, len(weekly_prices))
+        if len(weekly_prices[i]) == 5 and len(weekly_prices[i-1]) == 5]
+    
+    return weekly_data, diff, min_price
+   
+
+def create_train_val_dataloaders(weekly_data: list, batch_size: int = 32) -> Tuple[DataLoader, DataLoader]:
+    
+    md = ConditionedMarketDataset(weekly_data)
+    train_size = int(len(weekly_data) * 0.8)
+    train_data, test_data = data.random_split(md, (train_size, len(weekly_data) - train_size))
     
     train_dataset = DataLoader(train_data, batch_size=batch_size, shuffle=True)
     val_dataset = DataLoader(test_data, batch_size=batch_size, shuffle=True)
     return train_dataset, val_dataset
-
-
-def main():
     
-    cvae = CVAE(5, 20, 2).to(DEVICE)
-    #train_dataset, val_dataset = load_mnist_data(128, transform)
-    train_dataset, val_dataset = load_market_data()
-    history = train_model(cvae, train_dataset, val_dataset)
-
-    val_loss = history
+def save_loss(val_loss, name: str):
     plt.figure(figsize=(15, 9))
     plt.plot(val_loss, label="val_loss")
     plt.legend(loc='best')
     plt.xlabel("epochs")
     plt.ylabel("loss")
-    plt.show()
+    plt.savefig(name)
+    plt.clf()
+   
+def run_experiment():
+    
+    cvae = CVAE(5, 6).to(DEVICE)
+    weekly_data, diff, min_price = load_weekly_data_conditoned_on_previous_week_and_factor()
+    train_dataset, val_dataset = create_train_val_dataloaders(weekly_data)
+    
+    history = train_model(cvae, train_dataset, val_dataset)
+    save_loss(history, "loss.png")
+    evaluate_model(cvae, val_dataset, diff, min_price, "eval_after_training.png")
+    
+    
+    
+def evaluate_model(cvae, val_dataset, diff, min_price, fig_name):
+    
+    predicted_val_prices = []
+    predicted_synthetic_prices = []
+    actual_val_prices = []
+    
+    for batch in val_dataset:
+        
+        price_batch = batch['price_data']
+        synthetic_price_batch = torch.FloatTensor(np.array([np.random.randn(len(b)) for b in batch['price_data']]))
+        factor_batch = batch['factor_data']
+        price_batch = price_batch.to(DEVICE)
+        
+        predicted_prices = cvae(price_batch.float(), factor_batch.float())
+        predicted_synthetic_price = cvae(synthetic_price_batch.float(), factor_batch.float())
+        
+        predicted_val_prices += (predicted_prices*diff+min_price).detach().numpy().tolist()
+        predicted_synthetic_prices += (predicted_synthetic_price*diff+min_price).detach().numpy().tolist()
+        actual_val_prices += (price_batch*diff+min_price).detach().numpy().tolist()
+
+    plt.plot(np.array(predicted_val_prices).flatten(), label="predicted")
+    plt.plot(np.array(predicted_synthetic_prices).flatten(), label="synthetic")
+    plt.plot(np.array(actual_val_prices).flatten(), label="actual")
+    plt.legend()
+    plt.savefig(fig_name)
+    plt.clf()
+        
+     
+def main():
+    run_experiment()
 
 if __name__ == "__main__":
     main()

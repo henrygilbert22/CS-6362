@@ -30,29 +30,25 @@ class CVAE(nn.Module):
     learning_rate: float = 0.005
     input_size: int
     hidden_size: int
-    labels_length: int
+    conditioned_input_size: int
 
-    def __init__(self, input_size: int, hidden_size: int, labels_length: int):
+    def __init__(self, input_size: int, conditioned_input_size: int):
         super(CVAE, self).__init__()
         
         self.input_size = input_size
-        self.hidden_size = hidden_size + labels_length
-        self.labels_length = labels_length
-        self.input_size_with_label = input_size + self.labels_length
+        self.hidden_size = 40
+        self.conditioned_input_size = conditioned_input_size
         
-        self.fc1 = nn.Linear(self.input_size_with_label, 512)
-        self.fc21 = nn.Linear(512, self.hidden_size)
-        self.fc22 = nn.Linear(512, self.hidden_size)
+        self.fc1 = nn.Linear(self.input_size+self.conditioned_input_size, 80)
+        self.fc21 = nn.Linear(80, self.hidden_size)
+        self.fc22 = nn.Linear(80, self.hidden_size)
         
         self.relu = nn.ReLU()
         
-        self.fc3 = nn.Linear(self.hidden_size, 512)
-        self.fc4 = nn.Linear(512, self.input_size)
+        self.fc3 = nn.Linear(self.hidden_size, 80)
+        self.fc4 = nn.Linear(80, self.input_size)
     
     def encode(self, x, labels):
-       # x = x.view(-1, 1*28*28)
-        # x = x.type(torch.DoubleTensor)
-        # labels = labels.type(torch.DoubleTensor)
         x = torch.cat((x, labels), 1)
         x = self.relu(self.fc1(x))
         return self.fc21(x), self.fc22(x)
@@ -71,7 +67,7 @@ class CVAE(nn.Module):
         mu, logvar = self.encode(x, labels)
         z = self.reparameterize(mu, logvar)
         x = self.decode(z, labels)
-        return x, mu, logvar
+        return x
     
     
 
