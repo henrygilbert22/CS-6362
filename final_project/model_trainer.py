@@ -224,6 +224,7 @@ def evaluate_model(cvae, val_dataset, diff, min_price, fig_name):
         predicted_synthetic_price = cvae(synthetic_price_batch.float(), factor_batch.float())
         
         # Really more interested in average of synthetic prices. Did we capture the correct disitrbution?
+        # Should I take out the linear increase in SPY? Ie, normalie out the trend
         
         predicted_val_prices += (predicted_prices*diff+min_price).detach().numpy().tolist()
         predicted_synthetic_prices += (predicted_synthetic_price*diff+min_price).detach().numpy().tolist()
