@@ -223,6 +223,8 @@ def evaluate_model(cvae, val_dataset, diff, min_price, fig_name):
         predicted_prices = cvae(price_batch.float(), factor_batch.float())
         predicted_synthetic_price = cvae(synthetic_price_batch.float(), factor_batch.float())
         
+        # Really more interested in average of synthetic prices. Did we capture the correct disitrbution?
+        
         predicted_val_prices += (predicted_prices*diff+min_price).detach().numpy().tolist()
         predicted_synthetic_prices += (predicted_synthetic_price*diff+min_price).detach().numpy().tolist()
         actual_val_prices += (price_batch*diff+min_price).detach().numpy().tolist()
