@@ -35,9 +35,9 @@ class MarketDataLoader():
         localized_start_date = start_date.tz_localize('US/Eastern')
         localized_end_date = end_date.tz_localize('US/Eastern')
         
-        if os.path.exists(f'market_data/{ticker}_{timeframe}.csv'):
+        if os.path.exists(f'data/market_data/{ticker}_{timeframe}.csv'):
             
-            existing_df = pd.read_csv(f'market_data/{ticker}_{timeframe}.csv', index_col='timestamp', parse_dates=True)
+            existing_df = pd.read_csv(f'data/market_data/{ticker}_{timeframe}.csv', index_col='timestamp', parse_dates=True)
             start = existing_start = existing_df.index[0]
             end = existing_end = existing_df.index[-1]
             
@@ -54,7 +54,7 @@ class MarketDataLoader():
         
         
         price_df.drop_duplicates(inplace=True)
-        price_df.to_csv(f'market_data/{ticker}_{timeframe}.csv', index=True)
+        price_df.to_csv(f'data/market_data/{ticker}_{timeframe}.csv', index=True)
         return price_df[price_df.index.to_series().between(localized_start_date,localized_end_date)]
         
     def get_eod_price_data_grouped(self, ticker: str, start_date: pd.Timestamp, end_date: pd.Timestamp, group_by: GroupPeriod) -> Dict[pd.Timestamp, float]:

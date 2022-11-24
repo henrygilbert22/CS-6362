@@ -32,7 +32,7 @@ class FactorDataLoader():
         
         # TODO: This is a bit dumb
         year_index = df.index[df.iloc[:, 0] == 'Year'].to_list()[0]
-        df = pd.read_excel(f'factor_data/{file_name}', skiprows=year_index+1).astype(str)
+        df = pd.read_excel(f'data/factor_data/{file_name}', skiprows=year_index+1).astype(str)
     
         date_to_value = {'date': [], factor: []}
         months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']

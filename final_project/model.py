@@ -56,7 +56,8 @@ class CVAE(nn.Module):
     def decode(self, z, labels):
         torch.cat((z, labels), 1)
         z = self.relu(self.fc3(z))
-        return torch.sigmoid(self.fc4(z))
+        #return torch.sigmoid(self.fc4(z))
+        return self.fc4(z)
         
     def reparameterize(self, mu, logvar):
         std = torch.exp(0.5 *logvar)
