@@ -1,0 +1,16 @@
+artifact_uri: file:///Users/henrygilbert/GitHub/CS-6362/final_project/mlruns/1/3ba784c33f534af19cd6db1c707fc5e7/artifacts
+deleted_time: 1669587100540
+end_time: 1669574202471
+entry_point_name: ''
+experiment_id: '1'
+lifecycle_stage: deleted
+run_id: 3ba784c33f534af19cd6db1c707fc5e7
+run_name: unruly-crow-135
+run_uuid: 3ba784c33f534af19cd6db1c707fc5e7
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1669574015249
+status: 3
+tags: []
+user_id: henrygilbert

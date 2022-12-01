@@ -1,0 +1,16 @@
+artifact_uri: file:///Users/henrygilbert/GitHub/CS-6362/final_project/mlruns/4/31481c3be5fe4d32a32a213ed538c8c1/artifacts
+deleted_time: 1669662986582
+end_time: 1669657801692
+entry_point_name: ''
+experiment_id: '4'
+lifecycle_stage: deleted
+run_id: 31481c3be5fe4d32a32a213ed538c8c1
+run_name: unruly-lynx-720
+run_uuid: 31481c3be5fe4d32a32a213ed538c8c1
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1669657783238
+status: 3
+tags: []
+user_id: henrygilbert

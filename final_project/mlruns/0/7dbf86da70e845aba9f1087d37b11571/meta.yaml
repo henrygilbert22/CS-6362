@@ -1,0 +1,15 @@
+artifact_uri: file:///Users/henrygilbert/GitHub/CS-6362/final_project/mlruns/0/7dbf86da70e845aba9f1087d37b11571/artifacts
+end_time: 1669573649910
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 7dbf86da70e845aba9f1087d37b11571
+run_name: bittersweet-gull-665
+run_uuid: 7dbf86da70e845aba9f1087d37b11571
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1669571048613
+status: 3
+tags: []
+user_id: henrygilbert

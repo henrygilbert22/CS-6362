@@ -28,7 +28,7 @@ class FactorDataLoader():
             raise ValueError('Factor not supported')
         
         file_name = factor_to_file_name[factor]
-        df = pd.read_excel(f'factor_data/{file_name}').astype(str)
+        df = pd.read_excel(f'data/factor_data/{file_name}').astype(str)
         
         # TODO: This is a bit dumb
         year_index = df.index[df.iloc[:, 0] == 'Year'].to_list()[0]

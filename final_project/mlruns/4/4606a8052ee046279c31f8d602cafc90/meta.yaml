@@ -1,0 +1,16 @@
+artifact_uri: file:///Users/henrygilbert/GitHub/CS-6362/final_project/mlruns/4/4606a8052ee046279c31f8d602cafc90/artifacts
+deleted_time: 1669662986586
+end_time: 1669657472014
+entry_point_name: ''
+experiment_id: '4'
+lifecycle_stage: deleted
+run_id: 4606a8052ee046279c31f8d602cafc90
+run_name: grandiose-hawk-260
+run_uuid: 4606a8052ee046279c31f8d602cafc90
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1669657453990
+status: 3
+tags: []
+user_id: henrygilbert

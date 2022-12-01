@@ -1,0 +1,16 @@
+artifact_uri: file:///Users/henrygilbert/GitHub/CS-6362/final_project/mlruns/3/954b8d8b6c7a45ce889e4d2a6da7874c/artifacts
+deleted_time: 1669592739463
+end_time: 1669592371475
+entry_point_name: ''
+experiment_id: '3'
+lifecycle_stage: deleted
+run_id: 954b8d8b6c7a45ce889e4d2a6da7874c
+run_name: serious-yak-600
+run_uuid: 954b8d8b6c7a45ce889e4d2a6da7874c
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1669592343786
+status: 3
+tags: []
+user_id: henrygilbert

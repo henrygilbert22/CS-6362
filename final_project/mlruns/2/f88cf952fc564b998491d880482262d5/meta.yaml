@@ -1,0 +1,15 @@
+artifact_uri: file:///Users/henrygilbert/GitHub/CS-6362/final_project/mlruns/2/f88cf952fc564b998491d880482262d5/artifacts
+end_time: 1669585167436
+entry_point_name: ''
+experiment_id: '2'
+lifecycle_stage: active
+run_id: f88cf952fc564b998491d880482262d5
+run_name: luminous-mole-542
+run_uuid: f88cf952fc564b998491d880482262d5
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1669585140991
+status: 3
+tags: []
+user_id: henrygilbert

@@ -1,0 +1,15 @@
+artifact_uri: file:///Users/henrygilbert/GitHub/CS-6362/final_project/mlruns/0/9cabd8451e684f4b8682ce02d6f95f4d/artifacts
+end_time: 1669587367843
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 9cabd8451e684f4b8682ce02d6f95f4d
+run_name: bemused-snail-126
+run_uuid: 9cabd8451e684f4b8682ce02d6f95f4d
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1669587367767
+status: 3
+tags: []
+user_id: henrygilbert

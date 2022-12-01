@@ -1,0 +1,15 @@
+artifact_uri: file:///Users/henrygilbert/GitHub/CS-6362/final_project/mlruns/3/efbbd2238126466d94fc8ae20c5c9c1d/artifacts
+end_time: 1669594738811
+entry_point_name: ''
+experiment_id: '3'
+lifecycle_stage: active
+run_id: efbbd2238126466d94fc8ae20c5c9c1d
+run_name: skillful-rat-402
+run_uuid: efbbd2238126466d94fc8ae20c5c9c1d
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1669594631228
+status: 3
+tags: []
+user_id: henrygilbert

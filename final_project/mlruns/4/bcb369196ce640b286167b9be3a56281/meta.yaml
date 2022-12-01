@@ -1,0 +1,16 @@
+artifact_uri: file:///Users/henrygilbert/GitHub/CS-6362/final_project/mlruns/4/bcb369196ce640b286167b9be3a56281/artifacts
+deleted_time: 1669662986589
+end_time: 1669656715935
+entry_point_name: ''
+experiment_id: '4'
+lifecycle_stage: deleted
+run_id: bcb369196ce640b286167b9be3a56281
+run_name: fortunate-boar-661
+run_uuid: bcb369196ce640b286167b9be3a56281
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1669653293122
+status: 3
+tags: []
+user_id: henrygilbert

@@ -1,0 +1,15 @@
+artifact_uri: file:///Users/henrygilbert/GitHub/CS-6362/final_project/mlruns/3/0acb0094ce71483eb3de47be680f6d92/artifacts
+end_time: 1669650555530
+entry_point_name: ''
+experiment_id: '3'
+lifecycle_stage: active
+run_id: 0acb0094ce71483eb3de47be680f6d92
+run_name: bold-calf-758
+run_uuid: 0acb0094ce71483eb3de47be680f6d92
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1669650543154
+status: 3
+tags: []
+user_id: henrygilbert

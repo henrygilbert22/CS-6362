@@ -1,0 +1,16 @@
+artifact_uri: file:///Users/henrygilbert/GitHub/CS-6362/final_project/mlruns/4/b272f05c9c5d439a9692555440f777fb/artifacts
+deleted_time: 1669662986572
+end_time: 1669661923574
+entry_point_name: ''
+experiment_id: '4'
+lifecycle_stage: deleted
+run_id: b272f05c9c5d439a9692555440f777fb
+run_name: amusing-ray-373
+run_uuid: b272f05c9c5d439a9692555440f777fb
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1669661923555
+status: 3
+tags: []
+user_id: henrygilbert

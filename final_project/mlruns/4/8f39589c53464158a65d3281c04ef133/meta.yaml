@@ -1,0 +1,16 @@
+artifact_uri: file:///Users/henrygilbert/GitHub/CS-6362/final_project/mlruns/4/8f39589c53464158a65d3281c04ef133/artifacts
+deleted_time: 1669662986588
+end_time: 1669656837573
+entry_point_name: ''
+experiment_id: '4'
+lifecycle_stage: deleted
+run_id: 8f39589c53464158a65d3281c04ef133
+run_name: charming-gnat-112
+run_uuid: 8f39589c53464158a65d3281c04ef133
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1669656758965
+status: 3
+tags: []
+user_id: henrygilbert

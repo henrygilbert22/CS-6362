@@ -1,0 +1,16 @@
+artifact_uri: file:///Users/henrygilbert/GitHub/CS-6362/final_project/mlruns/1/708355eb7bf04ed78c4cc0a5876cd23d/artifacts
+deleted_time: 1669574041937
+end_time: 1669574015248
+entry_point_name: ''
+experiment_id: '1'
+lifecycle_stage: deleted
+run_id: 708355eb7bf04ed78c4cc0a5876cd23d
+run_name: burly-robin-709
+run_uuid: 708355eb7bf04ed78c4cc0a5876cd23d
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1669574001627
+status: 3
+tags: []
+user_id: henrygilbert

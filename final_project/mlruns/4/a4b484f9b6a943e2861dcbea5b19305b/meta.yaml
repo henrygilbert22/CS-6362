@@ -1,0 +1,16 @@
+artifact_uri: file:///Users/henrygilbert/GitHub/CS-6362/final_project/mlruns/4/a4b484f9b6a943e2861dcbea5b19305b/artifacts
+deleted_time: 1669662986583
+end_time: 1669657753123
+entry_point_name: ''
+experiment_id: '4'
+lifecycle_stage: deleted
+run_id: a4b484f9b6a943e2861dcbea5b19305b
+run_name: bright-mouse-620
+run_uuid: a4b484f9b6a943e2861dcbea5b19305b
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1669657735018
+status: 3
+tags: []
+user_id: henrygilbert

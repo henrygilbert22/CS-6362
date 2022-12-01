@@ -1,0 +1,15 @@
+artifact_uri: file:///Users/henrygilbert/GitHub/CS-6362/final_project/mlruns/4/9c0e164f20164582ac618b413a25dfc4/artifacts
+end_time: 1669663010451
+entry_point_name: ''
+experiment_id: '4'
+lifecycle_stage: active
+run_id: 9c0e164f20164582ac618b413a25dfc4
+run_name: peaceful-shark-677
+run_uuid: 9c0e164f20164582ac618b413a25dfc4
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1669663010433
+status: 3
+tags: []
+user_id: henrygilbert

@@ -1,0 +1,15 @@
+artifact_uri: file:///Users/henrygilbert/GitHub/CS-6362/final_project/mlruns/0/2cccd45a692c4ffebb9ef918c12f47fb/artifacts
+end_time: 1669585140988
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 2cccd45a692c4ffebb9ef918c12f47fb
+run_name: enthused-shrike-310
+run_uuid: 2cccd45a692c4ffebb9ef918c12f47fb
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1669574513230
+status: 3
+tags: []
+user_id: henrygilbert

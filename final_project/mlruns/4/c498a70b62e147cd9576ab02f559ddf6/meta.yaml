@@ -1,0 +1,16 @@
+artifact_uri: file:///Users/henrygilbert/GitHub/CS-6362/final_project/mlruns/4/c498a70b62e147cd9576ab02f559ddf6/artifacts
+deleted_time: 1669662986591
+end_time: 1669653191324
+entry_point_name: ''
+experiment_id: '4'
+lifecycle_stage: deleted
+run_id: c498a70b62e147cd9576ab02f559ddf6
+run_name: resilient-toad-125
+run_uuid: c498a70b62e147cd9576ab02f559ddf6
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1669652786819
+status: 3
+tags: []
+user_id: henrygilbert

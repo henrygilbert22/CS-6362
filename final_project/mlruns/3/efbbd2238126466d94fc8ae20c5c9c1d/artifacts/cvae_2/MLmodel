@@ -1,0 +1,16 @@
+artifact_path: cvae_2
+flavors:
+  python_function:
+    data: data
+    env: conda.yaml
+    loader_module: mlflow.pytorch
+    pickle_module_name: mlflow.pytorch.pickle_module
+    python_version: 3.10.6
+  pytorch:
+    code: null
+    model_data: data
+    pytorch_version: 1.12.1
+mlflow_version: 1.30.0
+model_uuid: 90264328979848958f50a55f3f7b5bb7
+run_id: efbbd2238126466d94fc8ae20c5c9c1d
+utc_time_created: '2022-11-28 00:17:27.856849'

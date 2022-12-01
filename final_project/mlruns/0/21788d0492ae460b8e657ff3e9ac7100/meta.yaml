@@ -1,0 +1,15 @@
+artifact_uri: file:///Users/henrygilbert/GitHub/CS-6362/final_project/mlruns/0/21788d0492ae460b8e657ff3e9ac7100/artifacts
+end_time: 1669658740688
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 21788d0492ae460b8e657ff3e9ac7100
+run_name: legendary-pug-836
+run_uuid: 21788d0492ae460b8e657ff3e9ac7100
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1669658740589
+status: 3
+tags: []
+user_id: henrygilbert

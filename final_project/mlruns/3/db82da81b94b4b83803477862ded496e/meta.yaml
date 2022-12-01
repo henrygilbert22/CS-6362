@@ -1,0 +1,16 @@
+artifact_uri: file:///Users/henrygilbert/GitHub/CS-6362/final_project/mlruns/3/db82da81b94b4b83803477862ded496e/artifacts
+deleted_time: 1669592739469
+end_time: 1669592343784
+entry_point_name: ''
+experiment_id: '3'
+lifecycle_stage: deleted
+run_id: db82da81b94b4b83803477862ded496e
+run_name: efficient-shrimp-243
+run_uuid: db82da81b94b4b83803477862ded496e
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1669592239075
+status: 3
+tags: []
+user_id: henrygilbert

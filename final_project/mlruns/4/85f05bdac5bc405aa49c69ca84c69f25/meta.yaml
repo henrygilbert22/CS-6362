@@ -1,0 +1,16 @@
+artifact_uri: file:///Users/henrygilbert/GitHub/CS-6362/final_project/mlruns/4/85f05bdac5bc405aa49c69ca84c69f25/artifacts
+deleted_time: 1669662986588
+end_time: 1669653260099
+entry_point_name: ''
+experiment_id: '4'
+lifecycle_stage: deleted
+run_id: 85f05bdac5bc405aa49c69ca84c69f25
+run_name: capricious-doe-950
+run_uuid: 85f05bdac5bc405aa49c69ca84c69f25
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1669653258744
+status: 3
+tags: []
+user_id: henrygilbert

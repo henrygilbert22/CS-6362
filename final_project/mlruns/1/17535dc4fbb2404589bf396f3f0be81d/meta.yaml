@@ -1,0 +1,16 @@
+artifact_uri: file:///Users/henrygilbert/GitHub/CS-6362/final_project/mlruns/1/17535dc4fbb2404589bf396f3f0be81d/artifacts
+deleted_time: 1669592670141
+end_time: 1669587570029
+entry_point_name: ''
+experiment_id: '1'
+lifecycle_stage: deleted
+run_id: 17535dc4fbb2404589bf396f3f0be81d
+run_name: charming-foal-546
+run_uuid: 17535dc4fbb2404589bf396f3f0be81d
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1669587570021
+status: 3
+tags: []
+user_id: henrygilbert

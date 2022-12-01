@@ -1,0 +1,15 @@
+artifact_uri: file:///Users/henrygilbert/GitHub/CS-6362/final_project/mlruns/3/8c7e2e72a7a5444b9ba51613ed8546bf/artifacts
+end_time: 1669593789554
+entry_point_name: ''
+experiment_id: '3'
+lifecycle_stage: active
+run_id: 8c7e2e72a7a5444b9ba51613ed8546bf
+run_name: traveling-flea-653
+run_uuid: 8c7e2e72a7a5444b9ba51613ed8546bf
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1669593675469
+status: 3
+tags: []
+user_id: henrygilbert

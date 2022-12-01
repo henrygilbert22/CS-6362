@@ -1,0 +1,16 @@
+artifact_uri: file:///Users/henrygilbert/GitHub/CS-6362/final_project/mlruns/4/6a557791ff55447b9d0df2c876710488/artifacts
+deleted_time: 1669662986585
+end_time: 1669657415687
+entry_point_name: ''
+experiment_id: '4'
+lifecycle_stage: deleted
+run_id: 6a557791ff55447b9d0df2c876710488
+run_name: auspicious-calf-944
+run_uuid: 6a557791ff55447b9d0df2c876710488
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1669657093743
+status: 3
+tags: []
+user_id: henrygilbert

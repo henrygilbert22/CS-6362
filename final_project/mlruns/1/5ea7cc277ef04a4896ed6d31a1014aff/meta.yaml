@@ -1,0 +1,15 @@
+artifact_uri: file:///Users/henrygilbert/GitHub/CS-6362/final_project/mlruns/1/5ea7cc277ef04a4896ed6d31a1014aff/artifacts
+end_time: 1669594156673
+entry_point_name: ''
+experiment_id: '1'
+lifecycle_stage: active
+run_id: 5ea7cc277ef04a4896ed6d31a1014aff
+run_name: caring-turtle-509
+run_uuid: 5ea7cc277ef04a4896ed6d31a1014aff
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1669594156659
+status: 3
+tags: []
+user_id: henrygilbert

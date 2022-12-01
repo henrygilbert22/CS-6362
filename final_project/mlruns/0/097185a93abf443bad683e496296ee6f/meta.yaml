@@ -1,0 +1,15 @@
+artifact_uri: file:///Users/henrygilbert/GitHub/CS-6362/final_project/mlruns/0/097185a93abf443bad683e496296ee6f/artifacts
+end_time: 1669589899216
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 097185a93abf443bad683e496296ee6f
+run_name: adaptable-hound-246
+run_uuid: 097185a93abf443bad683e496296ee6f
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1669589899131
+status: 3
+tags: []
+user_id: henrygilbert

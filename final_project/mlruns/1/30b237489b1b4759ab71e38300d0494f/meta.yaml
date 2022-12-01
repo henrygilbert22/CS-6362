@@ -1,0 +1,16 @@
+artifact_uri: file:///Users/henrygilbert/GitHub/CS-6362/final_project/mlruns/1/30b237489b1b4759ab71e38300d0494f/artifacts
+deleted_time: 1669587148522
+end_time: null
+entry_point_name: ''
+experiment_id: '1'
+lifecycle_stage: deleted
+run_id: 30b237489b1b4759ab71e38300d0494f
+run_name: glamorous-mink-405
+run_uuid: 30b237489b1b4759ab71e38300d0494f
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1669587108604
+status: 1
+tags: []
+user_id: henrygilbert

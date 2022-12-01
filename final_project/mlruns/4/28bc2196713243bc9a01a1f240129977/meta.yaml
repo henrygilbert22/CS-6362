@@ -1,0 +1,16 @@
+artifact_uri: file:///Users/henrygilbert/GitHub/CS-6362/final_project/mlruns/4/28bc2196713243bc9a01a1f240129977/artifacts
+deleted_time: 1669662986566
+end_time: 1669661949778
+entry_point_name: ''
+experiment_id: '4'
+lifecycle_stage: deleted
+run_id: 28bc2196713243bc9a01a1f240129977
+run_name: upbeat-bug-980
+run_uuid: 28bc2196713243bc9a01a1f240129977
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1669661923576
+status: 3
+tags: []
+user_id: henrygilbert

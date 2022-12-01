@@ -6,13 +6,14 @@ from matplotlib import pyplot as plt
 import torch
 from torch.utils import data
 from torch import nn
-from tqdm import tqdm
+import mlflow
 
 from model import CVAE
 
 
 SEED = 42
 DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+mlflow.log_param("seed", SEED)
 
 np.random.seed(SEED)
 torch.manual_seed(SEED)
@@ -73,7 +74,7 @@ def evaluate(losses: List, cvae: CVAE, dataloader: data.DataLoader, device: torc
 
 
 def train_model(cvae: CVAE, dataloader: data.DataLoader, test_dataloader: data.DataLoader, epochs:int=30):
-   
+    
     validation_losses = []
     optim = torch.optim.Adam(cvae.parameters())
     for i in range(epochs):
@@ -85,14 +86,13 @@ def train_model(cvae: CVAE, dataloader: data.DataLoader, test_dataloader: data.D
             price_batch = price_batch.to(DEVICE)
             optim.zero_grad()
             
-            x = cvae(price_batch.float(), factor_batch.float())         
+            x = cvae(price_batch.float(), factor_batch.float())      
             loss = rmse_loss_fn(price_batch.float(), x)
             loss.backward()
             optim.step()
         
-       # evaluate(validation_losses, cvae, test_dataloader, DEVICE)
+        evaluate(validation_losses, cvae, test_dataloader, DEVICE)
     
-    plt.show()
     return validation_losses
 
 def save_loss(val_loss, name: str):

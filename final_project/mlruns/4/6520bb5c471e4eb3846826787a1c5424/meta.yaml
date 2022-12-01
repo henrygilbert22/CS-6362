@@ -1,0 +1,16 @@
+artifact_uri: file:///Users/henrygilbert/GitHub/CS-6362/final_project/mlruns/4/6520bb5c471e4eb3846826787a1c5424/artifacts
+deleted_time: 1669662986583
+end_time: 1669657667612
+entry_point_name: ''
+experiment_id: '4'
+lifecycle_stage: deleted
+run_id: 6520bb5c471e4eb3846826787a1c5424
+run_name: melodic-moth-584
+run_uuid: 6520bb5c471e4eb3846826787a1c5424
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1669657645667
+status: 3
+tags: []
+user_id: henrygilbert

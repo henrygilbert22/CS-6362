@@ -1,0 +1,16 @@
+artifact_uri: file:///Users/henrygilbert/GitHub/CS-6362/final_project/mlruns/4/fb00409a29514ed490c2ada9a8fc66fd/artifacts
+deleted_time: 1669662986575
+end_time: 1669662072498
+entry_point_name: ''
+experiment_id: '4'
+lifecycle_stage: deleted
+run_id: fb00409a29514ed490c2ada9a8fc66fd
+run_name: calm-wren-403
+run_uuid: fb00409a29514ed490c2ada9a8fc66fd
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1669662072481
+status: 3
+tags: []
+user_id: henrygilbert

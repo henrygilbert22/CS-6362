@@ -1,0 +1,16 @@
+artifact_uri: file:///Users/henrygilbert/GitHub/CS-6362/final_project/mlruns/1/8999df68f39e4261a5ddde74af513ad3/artifacts
+deleted_time: 1669574041943
+end_time: 1669574001625
+entry_point_name: ''
+experiment_id: '1'
+lifecycle_stage: deleted
+run_id: 8999df68f39e4261a5ddde74af513ad3
+run_name: wistful-sow-321
+run_uuid: 8999df68f39e4261a5ddde74af513ad3
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1669574001610
+status: 3
+tags: []
+user_id: henrygilbert

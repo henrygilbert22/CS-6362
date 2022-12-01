@@ -1,22 +1,6 @@
-from matplotlib import pyplot as plt
-from matplotlib.offsetbox import OffsetImage, AnnotationBbox, TextArea
-import matplotlib
-import numpy as np
-import pandas as pd
 import torch
-import torchvision
 from torch import nn
-from torch.autograd import Variable
-from torch.utils.data import DataLoader
-from torch.utils import data
-import torch.nn.functional as F
-from torchvision import transforms
-from torchvision.datasets import MNIST
-from torchvision.utils import save_image
-from sklearn.model_selection import train_test_split
-from tqdm import tqdm, tqdm_notebook
-from sklearn.manifold import TSNE
-from sklearn.decomposition import PCA
+import mlflow
 
 
 
@@ -47,6 +31,12 @@ class CVAE(nn.Module):
         
         self.fc3 = nn.Linear(self.hidden_size, 80)
         self.fc4 = nn.Linear(80, self.input_size)
+        
+        mlflow.log_param("model_batch_size", self.batch_size)
+        mlflow.log_param("model_learning_rate", self.learning_rate)
+        mlflow.log_param("model_input_size", self.input_size)
+        mlflow.log_param("model_hidden_size", self.hidden_size)
+        mlflow.log_param("model_conditioned_input_size", self.conditioned_input_size)
     
     def encode(self, x, labels):
         x = torch.cat((x, labels), 1)

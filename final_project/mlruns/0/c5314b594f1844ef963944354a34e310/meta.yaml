@@ -1,0 +1,15 @@
+artifact_uri: file:///Users/henrygilbert/GitHub/CS-6362/final_project/mlruns/0/c5314b594f1844ef963944354a34e310/artifacts
+end_time: 1669587074775
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: c5314b594f1844ef963944354a34e310
+run_name: gentle-dove-508
+run_uuid: c5314b594f1844ef963944354a34e310
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1669585538432
+status: 3
+tags: []
+user_id: henrygilbert

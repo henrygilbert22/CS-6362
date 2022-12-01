@@ -1,0 +1,16 @@
+artifact_uri: file:///Users/henrygilbert/GitHub/CS-6362/final_project/mlruns/1/a784ad6f6aeb46b58ce8a801c1ffc9a5/artifacts
+deleted_time: 1669587100548
+end_time: 1669573882269
+entry_point_name: ''
+experiment_id: '1'
+lifecycle_stage: deleted
+run_id: a784ad6f6aeb46b58ce8a801c1ffc9a5
+run_name: placid-panda-745
+run_uuid: a784ad6f6aeb46b58ce8a801c1ffc9a5
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1669573649915
+status: 3
+tags: []
+user_id: henrygilbert

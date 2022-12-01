@@ -1,0 +1,16 @@
+artifact_uri: file:///Users/henrygilbert/GitHub/CS-6362/final_project/mlruns/4/9fe66f8505cf4ca39a23bd7046f6f884/artifacts
+deleted_time: 1669662986587
+end_time: 1669656973533
+entry_point_name: ''
+experiment_id: '4'
+lifecycle_stage: deleted
+run_id: 9fe66f8505cf4ca39a23bd7046f6f884
+run_name: sneaky-eel-816
+run_uuid: 9fe66f8505cf4ca39a23bd7046f6f884
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1669656955352
+status: 3
+tags: []
+user_id: henrygilbert

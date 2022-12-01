@@ -1,0 +1,16 @@
+artifact_uri: file:///Users/henrygilbert/GitHub/CS-6362/final_project/mlruns/4/9b2b55a6d44b4751bbab0792eb7fba2c/artifacts
+deleted_time: 1669662986574
+end_time: 1669661561853
+entry_point_name: ''
+experiment_id: '4'
+lifecycle_stage: deleted
+run_id: 9b2b55a6d44b4751bbab0792eb7fba2c
+run_name: painted-fly-157
+run_uuid: 9b2b55a6d44b4751bbab0792eb7fba2c
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1669658740690
+status: 3
+tags: []
+user_id: henrygilbert

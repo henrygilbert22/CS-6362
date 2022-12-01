@@ -1,0 +1,15 @@
+artifact_uri: file:///Users/henrygilbert/GitHub/CS-6362/final_project/mlruns/3/d9a3159124c748c4a2e0dc342afd21fe/artifacts
+end_time: 1669593675467
+entry_point_name: ''
+experiment_id: '3'
+lifecycle_stage: active
+run_id: d9a3159124c748c4a2e0dc342afd21fe
+run_name: capricious-sow-702
+run_uuid: d9a3159124c748c4a2e0dc342afd21fe
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1669593675448
+status: 3
+tags: []
+user_id: henrygilbert

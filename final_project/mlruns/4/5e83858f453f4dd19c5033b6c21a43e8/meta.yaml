@@ -1,0 +1,16 @@
+artifact_uri: file:///Users/henrygilbert/GitHub/CS-6362/final_project/mlruns/4/5e83858f453f4dd19c5033b6c21a43e8/artifacts
+deleted_time: 1669662986563
+end_time: 1669662093983
+entry_point_name: ''
+experiment_id: '4'
+lifecycle_stage: deleted
+run_id: 5e83858f453f4dd19c5033b6c21a43e8
+run_name: luminous-auk-181
+run_uuid: 5e83858f453f4dd19c5033b6c21a43e8
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1669662072500
+status: 3
+tags: []
+user_id: henrygilbert

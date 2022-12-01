@@ -1,0 +1,15 @@
+artifact_uri: file:///Users/henrygilbert/GitHub/CS-6362/final_project/mlruns/1/62a1202877a74ababffaaab96dda9ca6/artifacts
+end_time: 1669587724336
+entry_point_name: ''
+experiment_id: '1'
+lifecycle_stage: active
+run_id: 62a1202877a74ababffaaab96dda9ca6
+run_name: whimsical-carp-324
+run_uuid: 62a1202877a74ababffaaab96dda9ca6
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1669587570030
+status: 3
+tags: []
+user_id: henrygilbert

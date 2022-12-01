@@ -1,0 +1,15 @@
+artifact_uri: file:///Users/henrygilbert/GitHub/CS-6362/final_project/mlruns/0/d26c68a244744d7ead5a7c59103917fa/artifacts
+end_time: 1669652786818
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: d26c68a244744d7ead5a7c59103917fa
+run_name: salty-eel-382
+run_uuid: d26c68a244744d7ead5a7c59103917fa
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1669652764982
+status: 3
+tags: []
+user_id: henrygilbert
